@@ -17,7 +17,6 @@ public class Controller {
 
     public void setImage(MovieAdapter.ViewHolder holder, Drawable drawable) {
         mainActivity.runOnUiThread(() -> holder.poster.setImageDrawable(drawable));
-
     }
 
 

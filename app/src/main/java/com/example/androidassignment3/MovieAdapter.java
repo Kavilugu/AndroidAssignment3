@@ -47,6 +47,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         holder.year.setText(String.valueOf(year));
         ImageThread imageThread = new ImageThread(url, holder);
         imageThread.start();
+        holder.id = position;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         ImageView poster;
         private TextView title;
         private TextView year;
+        private int id;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -75,14 +77,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     private class ImageThread extends Thread {
         private String url;
         private ViewHolder holder;
-        //private ImageView imageView;
-
 
         public ImageThread(String url, ViewHolder holder) {
             this.url = url;
             this.holder = holder;
-
-
         }
 
         public void run() {
@@ -90,7 +88,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
                 InputStream is = (InputStream) new URL(url).getContent();
                 Drawable d = Drawable.createFromStream(is, "src name");
                 controller.setImage(holder, d);
-
             } catch (Exception e) {
             }
         }
