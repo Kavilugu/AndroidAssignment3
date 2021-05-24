@@ -3,9 +3,9 @@ package com.example.androidassignment3;
 public class Movie {
     private String posterUrl;
     private String title;
-    private int year;
+    private String year;
 
-    public Movie(String url, String title, int year) {
+    public Movie(String url, String title, String year) {
         this.posterUrl = url;
         this.title = title;
         this.year = year;
@@ -27,11 +27,11 @@ public class Movie {
         this.title = title;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 }

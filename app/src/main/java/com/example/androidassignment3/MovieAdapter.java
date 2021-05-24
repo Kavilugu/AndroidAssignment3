@@ -36,7 +36,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String title = movies.get(position).getTitle();
-        int year = movies.get(position).getYear();
+        String year = movies.get(position).getYear();
         String url = movies.get(position).getPosterUrl();
 
         holder.title.setText(title);

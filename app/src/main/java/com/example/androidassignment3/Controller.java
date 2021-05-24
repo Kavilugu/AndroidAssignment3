@@ -47,12 +47,12 @@ public class Controller {
 
                             for(int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject currentJObj = jsonArray.getJSONObject(i);
-                                Movie currentMovie = new Movie(currentJObj.getString("Poster"), currentJObj.getString("Title"), currentJObj.getInt("Year"));
+                                Movie currentMovie = new Movie(currentJObj.getString("Poster"), currentJObj.getString("Title"), currentJObj.getString("Year"));
                                 movieArrayList.add(currentMovie);
                             }
                             searchFragment.setList(movieArrayList);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            searchFragment.setList(new ArrayList<>());
                         }
                     }
                 }, new Response.ErrorListener() {

@@ -31,10 +31,10 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Movie movie1 = new Movie("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWlxl5juhtA-DXFdUcH9I08oq0FjqmqIXUAMxsVbrDjzlWi8aQkLy8HQhb3j8fvxmWn-Dq9H-&usqp=CAc", "FILM", 1920);
-        Movie movie2 = new Movie("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWlxl5juhtA-DXFdUcH9I08oq0FjqmqIXUAMxsVbrDjzlWi8aQkLy8HQhb3j8fvxmWn-Dq9H-&usqp=CAc", "TEST", 1990);
-        Movie movie3 = new Movie("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWlxl5juhtA-DXFdUcH9I08oq0FjqmqIXUAMxsVbrDjzlWi8aQkLy8HQhb3j8fvxmWn-Dq9H-&usqp=CAc", "ABC", 2020);
-        Movie movie4 = new Movie("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWlxl5juhtA-DXFdUcH9I08oq0FjqmqIXUAMxsVbrDjzlWi8aQkLy8HQhb3j8fvxmWn-Dq9H-&usqp=CAc", "MOVIE", 2021);
+        Movie movie1 = new Movie("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWlxl5juhtA-DXFdUcH9I08oq0FjqmqIXUAMxsVbrDjzlWi8aQkLy8HQhb3j8fvxmWn-Dq9H-&usqp=CAc", "FILM", "1920");
+        Movie movie2 = new Movie("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWlxl5juhtA-DXFdUcH9I08oq0FjqmqIXUAMxsVbrDjzlWi8aQkLy8HQhb3j8fvxmWn-Dq9H-&usqp=CAc", "TEST", "1990");
+        Movie movie3 = new Movie("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWlxl5juhtA-DXFdUcH9I08oq0FjqmqIXUAMxsVbrDjzlWi8aQkLy8HQhb3j8fvxmWn-Dq9H-&usqp=CAc", "ABC", "2020");
+        Movie movie4 = new Movie("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWlxl5juhtA-DXFdUcH9I08oq0FjqmqIXUAMxsVbrDjzlWi8aQkLy8HQhb3j8fvxmWn-Dq9H-&usqp=CAc", "MOVIE", "2021");
         list.add(movie1);
         list.add(movie2);
         list.add(movie3);
