@@ -11,16 +11,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
+    private ArrayList<Movie> movies;
+    static Controller controller;
 
     public MovieAdapter(ArrayList<Movie> movies) {
         this.movies = movies;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     @NonNull
@@ -37,8 +44,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         String url = movies.get(position).getPosterUrl();
 
         holder.title.setText(title);
-        holder.year.setText(year);
-        holder.poster.setImageDrawable(LoadImageFromWebOperations(url));
+        holder.year.setText(String.valueOf(year));
+        ImageThread imageThread = new ImageThread(url, holder);
+        imageThread.start();
     }
 
     @Override
@@ -47,7 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView poster;
+        ImageView poster;
         private TextView title;
         private TextView year;
 
@@ -64,15 +72,29 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
         }
     }
+    private class ImageThread extends Thread {
+        private String url;
+        private ViewHolder holder;
+        //private ImageView imageView;
 
-    public static Drawable LoadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
+
+        public ImageThread(String url, ViewHolder holder) {
+            this.url = url;
+            this.holder = holder;
+
+
+        }
+
+        public void run() {
+            try {
+                InputStream is = (InputStream) new URL(url).getContent();
+                Drawable d = Drawable.createFromStream(is, "src name");
+                controller.setImage(holder, d);
+
+            } catch (Exception e) {
+            }
         }
     }
+
 
 }
