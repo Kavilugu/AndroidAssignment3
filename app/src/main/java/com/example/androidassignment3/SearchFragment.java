@@ -1,9 +1,13 @@
 package com.example.androidassignment3;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,6 +20,9 @@ public class SearchFragment extends Fragment {
     private ArrayList<Movie> list= new ArrayList<>();
     private RecyclerView movieView;
     private Controller controller;
+    private MovieAdapter adapter;
+    private Button searchBtn;
+    private EditText editTextSearch;
 
     public void setController(Controller controller) {
         this.controller = controller;
@@ -36,9 +43,25 @@ public class SearchFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
         movieView = (RecyclerView) v.findViewById(R.id.movieView);
         movieView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        MovieAdapter adapter = new MovieAdapter(list);
+        searchBtn = v.findViewById(R.id.buttonSearch);
+        editTextSearch = v.findViewById(R.id.editTextSearch);
+        adapter = new MovieAdapter(list);
         movieView.setAdapter(adapter);
         adapter.setController(controller);
+        setOnClickListeners();
         return v;
+    }
+
+    public void setList (ArrayList<Movie> arrList) {
+        adapter = new MovieAdapter(arrList);
+        movieView.setAdapter(adapter);
+        adapter.setController(controller);
+    }
+
+    private void setOnClickListeners() {
+        searchBtn.setOnClickListener(view -> {
+            Log.e("click", "CLICK");
+            controller.movieSearchApi(editTextSearch.getText().toString());
+        });
     }
 }
