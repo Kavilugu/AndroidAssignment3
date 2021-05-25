@@ -1,7 +1,7 @@
 package com.example.androidassignment3;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,34 +13,32 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class BrowserFragment extends Fragment {
-    private WebView webView;
-    private String url;
+    private final String url;
+    private Controller controller;
+
     public BrowserFragment(String url) {
         this.url = url;
     }
-    private Controller controller;
-    private Button btnBrowserReturn;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_browser, container, false);
-        webView = v.findViewById(R.id.browserWebView);
+        View view = inflater.inflate(R.layout.fragment_browser, container, false);
+
+        WebView webView = view.findViewById(R.id.browserWebView);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
-        btnBrowserReturn = v.findViewById(R.id.browserReturnButton);
-        btnBrowserReturn.setOnClickListener(v1 -> {
-            controller.setSearchFragment();
-        });
+
+        Button btnBrowserReturn = view.findViewById(R.id.browserReturnButton);
+        btnBrowserReturn.setOnClickListener(v -> controller.setSearchFragment());
+
         super.onCreateView(inflater, container, savedInstanceState);
-        return v;
+        return view;
     }
 
     public void setController (Controller controller) {
         this.controller = controller;
     }
-
-
-
 }

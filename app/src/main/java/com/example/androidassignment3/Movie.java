@@ -1,9 +1,9 @@
 package com.example.androidassignment3;
 
 public class Movie {
-    private String posterUrl;
-    private String title;
-    private String year;
+    private final String posterUrl;
+    private final String title;
+    private final String year;
 
     public Movie(String url, String title, String year) {
         this.posterUrl = url;

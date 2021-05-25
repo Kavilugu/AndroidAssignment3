@@ -1,7 +1,7 @@
 package com.example.androidassignment3;
 
-
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +13,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
-    private ArrayList<Movie> movies;
+    private final ArrayList<Movie> movies;
     static Controller controller;
 
     public MovieAdapter(ArrayList<Movie> movies) {
@@ -23,7 +22,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     }
 
     public void setController(Controller controller) {
-        this.controller = controller;
+        MovieAdapter.controller = controller;
     }
 
     @NonNull
@@ -52,9 +51,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView poster;
-        private TextView title;
-        private TextView year;
+        protected ImageView poster;
+        private final TextView title;
+        private final TextView year;
         private int id;
 
         public ViewHolder(View itemView) {
@@ -72,8 +71,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     }
 
     private class ImageThread extends Thread {
-        private String url;
-        private ViewHolder holder;
+        private final String url;
+        private final ViewHolder holder;
 
         public ImageThread(String url, ViewHolder holder) {
             this.url = url;
@@ -85,10 +84,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
                 InputStream is = (InputStream) new URL(url).getContent();
                 Drawable d = Drawable.createFromStream(is, "src name");
                 controller.setImage(holder, d);
-            } catch (Exception e) {
+            } catch (Exception error) {
+                Log.e("error response", error.toString());
             }
         }
     }
-
-
 }

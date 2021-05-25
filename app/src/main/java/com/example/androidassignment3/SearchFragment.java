@@ -3,7 +3,6 @@ package com.example.androidassignment3;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +20,15 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SearchFragment extends Fragment {
-    private ArrayList<Movie> list= new ArrayList<>();
+    private final ArrayList<Movie> list= new ArrayList<>();
     private RecyclerView movieView;
     private Controller controller;
     private MovieAdapter adapter;
     private Button searchBtn;
     private EditText editTextSearch;
-    private String sharedPrefStr;
 
     public void setController(Controller controller) {
         this.controller = controller;
@@ -38,17 +37,20 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search, container, false);
-        movieView = (RecyclerView) v.findViewById(R.id.movieView);
-        movieView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        searchBtn = v.findViewById(R.id.buttonSearch);
-        editTextSearch = v.findViewById(R.id.editTextSearch);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        searchBtn = view.findViewById(R.id.buttonSearch);
+        editTextSearch = view.findViewById(R.id.editTextSearch);
+        movieView = (RecyclerView) view.findViewById(R.id.movieView);
+
+        movieView.setLayoutManager(new LinearLayoutManager(Objects.requireNonNull(getActivity()).getApplicationContext()));
         adapter = new MovieAdapter(list);
         movieView.setAdapter(adapter);
         adapter.setController(controller);
         setOnClickListeners();
-        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
-        sharedPrefStr = sh.getString("searchMovieList", "");
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()).getApplicationContext());
+        String sharedPrefStr = sharedPref.getString("searchMovieList", "");
         if (sharedPrefStr.length() != 0) {
             ArrayList<Movie> arrayItems;
                 Gson gson = new Gson();
@@ -56,7 +58,8 @@ public class SearchFragment extends Fragment {
                 arrayItems = gson.fromJson(sharedPrefStr, type);
                 setList(arrayItems);
         }
-        return v;
+
+        return view;
     }
 
     public void setList (ArrayList<Movie> arrList) {
@@ -67,8 +70,6 @@ public class SearchFragment extends Fragment {
     }
 
     private void setOnClickListeners() {
-        searchBtn.setOnClickListener(view -> {
-            controller.movieSearchApi(editTextSearch.getText().toString());
-        });
+        searchBtn.setOnClickListener(view -> controller.movieSearchApi(editTextSearch.getText().toString()));
     }
 }
