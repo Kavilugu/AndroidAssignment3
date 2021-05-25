@@ -23,7 +23,7 @@ public class Controller {
     private RequestQueue rQueue;
 
     public Controller(MainActivity mainActivity) {
-        this.browserFragment = new BrowserFragment();
+        this.browserFragment = new BrowserFragment("https://imdb.com");
         this.searchFragment = new SearchFragment();
         searchFragment.setController(this);
         this.mainActivity = mainActivity;
@@ -93,9 +93,10 @@ public class Controller {
                         } catch (JSONException e) {
                             articleUrl = "https://c.tenor.com/Z6gmDPeM6dgAAAAC/dance-moves.gif";
                         }
+                        browserFragment = new BrowserFragment(articleUrl);
                         mainActivity.fragmentTrans(browserFragment);
 
-                        browserFragment.setUrl(articleUrl);
+
                     }
                 }, new Response.ErrorListener() {
             @Override

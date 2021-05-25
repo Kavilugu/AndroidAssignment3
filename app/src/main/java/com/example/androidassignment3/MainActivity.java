@@ -32,4 +32,5 @@ public class MainActivity extends AppCompatActivity {
         fragTrans.replace(R.id.container, fragment);
         fragTrans.commit();
     }
+
 }
