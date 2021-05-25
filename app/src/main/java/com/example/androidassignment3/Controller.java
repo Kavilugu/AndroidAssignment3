@@ -33,14 +33,12 @@ public class Controller {
     }
 
     public void movieSearchApi(String title) {
-        Log.e("searcApi success", "in movieSearchApi, beginning");
         String url = "https://www.omdbapi.com/?apikey=" + MainActivity.OMDB_API_KEY + "&s=" + title;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.e("api-log", "api success");
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("Search");
                             ArrayList<Movie> movieArrayList = new ArrayList<>();
@@ -54,6 +52,50 @@ public class Controller {
                         } catch (JSONException e) {
                             searchFragment.setList(new ArrayList<>());
                         }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error response", error.toString());
+            }
+        });
+        rQueue.add(stringRequest);
+    }
+
+    public void articleSearchApi(String title) {
+        String url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=" + title + "&api-key=" + MainActivity.NY_TIMES_API_KEY;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String articleUrl = "";
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("results");
+
+                            if (jsonArray != null) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject currentObject = jsonArray.getJSONObject(i);
+                                    String arrayTitle = currentObject.getString("display_title").toLowerCase();
+                                    if (arrayTitle.equals(title.toLowerCase())) {
+                                        articleUrl = currentObject.getJSONObject("link").getString("url");
+                                        break;
+                                    }
+                                }
+                                if (articleUrl.equals("")) {
+                                    articleUrl = jsonArray.getJSONObject(0).getJSONObject("link").getString("url");
+                                }
+                            }
+                            else {
+                                articleUrl = "https://c.tenor.com/Z6gmDPeM6dgAAAAC/dance-moves.gif";
+                            }
+
+                        } catch (JSONException e) {
+                            articleUrl = "https://c.tenor.com/Z6gmDPeM6dgAAAAC/dance-moves.gif";
+                        }
+                        mainActivity.fragmentTrans(browserFragment);
+
+                        browserFragment.setUrl(articleUrl);
                     }
                 }, new Response.ErrorListener() {
             @Override

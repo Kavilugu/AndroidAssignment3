@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public void fragmentTrans(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragTrans = fragmentManager.beginTransaction();
-        fragTrans.add(R.id.container, fragment);
+        fragTrans.replace(R.id.container, fragment);
         fragTrans.commit();
     }
 }

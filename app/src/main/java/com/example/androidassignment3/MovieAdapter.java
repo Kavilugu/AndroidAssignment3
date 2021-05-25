@@ -67,9 +67,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
 
         @Override
         public void onClick(View v) {
-
+            controller.articleSearchApi(movies.get(id).getTitle());
         }
     }
+
     private class ImageThread extends Thread {
         private String url;
         private ViewHolder holder;
