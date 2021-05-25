@@ -1,6 +1,8 @@
 package com.example.androidassignment3;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -9,12 +11,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     private MainActivity mainActivity;
@@ -30,6 +34,19 @@ public class Controller {
         mainActivity.fragmentTrans(searchFragment);
         this.rQueue = Volley.newRequestQueue(mainActivity.getApplicationContext());
 
+    }
+
+    public <T> void setList(String key, List<T> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        set(key, json);
+    }
+
+    public void set(String key, String value) {
+        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(mainActivity.getApplicationContext());
+        SharedPreferences.Editor editor = sh.edit();
+        editor.putString(key, value);
+        editor.apply();
     }
 
     public void movieSearchApi(String title) {
@@ -62,7 +79,7 @@ public class Controller {
         rQueue.add(stringRequest);
     }
 
-    public void articleSearchApi(String title) {
+    public void articleSearchApi(String title, Controller controller) {
         String url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=" + title + "&api-key=" + MainActivity.NY_TIMES_API_KEY;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -94,9 +111,8 @@ public class Controller {
                             articleUrl = "https://c.tenor.com/Z6gmDPeM6dgAAAAC/dance-moves.gif";
                         }
                         browserFragment = new BrowserFragment(articleUrl);
+                        browserFragment.setController(controller);
                         mainActivity.fragmentTrans(browserFragment);
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -111,5 +127,7 @@ public class Controller {
         mainActivity.runOnUiThread(() -> holder.poster.setImageDrawable(drawable));
     }
 
-
+    public void setSearchFragment() {
+        mainActivity.fragmentTrans(searchFragment);
+    }
 }

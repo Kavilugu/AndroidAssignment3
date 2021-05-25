@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,9 @@ public class BrowserFragment extends Fragment {
     public BrowserFragment(String url) {
         this.url = url;
     }
+    private Controller controller;
+    private Button btnBrowserReturn;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,8 +29,16 @@ public class BrowserFragment extends Fragment {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
+        btnBrowserReturn = v.findViewById(R.id.browserReturnButton);
+        btnBrowserReturn.setOnClickListener(v1 -> {
+            controller.setSearchFragment();
+        });
         super.onCreateView(inflater, container, savedInstanceState);
         return v;
+    }
+
+    public void setController (Controller controller) {
+        this.controller = controller;
     }
 
 
