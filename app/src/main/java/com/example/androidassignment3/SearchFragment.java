@@ -1,13 +1,18 @@
 package com.example.androidassignment3;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +32,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView movieView;
     private Controller controller;
     private MovieAdapter adapter;
-    private Button searchBtn;
+    private ImageButton buttonSearch;
     private EditText editTextSearch;
 
     public void setController(Controller controller) {
@@ -39,15 +44,16 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        searchBtn = view.findViewById(R.id.buttonSearch);
+        buttonSearch = view.findViewById(R.id.buttonSearch);
         editTextSearch = view.findViewById(R.id.editTextSearch);
         movieView = (RecyclerView) view.findViewById(R.id.movieView);
+
+        setOnClickListeners();
 
         movieView.setLayoutManager(new LinearLayoutManager(Objects.requireNonNull(getActivity()).getApplicationContext()));
         adapter = new MovieAdapter(list);
         movieView.setAdapter(adapter);
         adapter.setController(controller);
-        setOnClickListeners();
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()).getApplicationContext());
         String sharedPrefStr = sharedPref.getString("searchMovieList", "");
@@ -70,6 +76,27 @@ public class SearchFragment extends Fragment {
     }
 
     private void setOnClickListeners() {
-        searchBtn.setOnClickListener(view -> controller.movieSearchApi(editTextSearch.getText().toString()));
+        buttonSearch.setOnClickListener(view -> performSearch());
+
+        // Set On 'Enter'-click (Android Keyboard) send action:
+        editTextSearch.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            // When 'Enter' or 'Send' is pressed do:
+            // Set: 'android:imeOptions="actionSearch"' in EditText,
+            // ("action..." determines EditorInfo.IME_ACTION_...)
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                performSearch();
+
+                // Hide Keyboard on enter:
+                InputMethodManager imm = (InputMethodManager) Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editTextSearch.getWindowToken(), 0);
+                handled = true;
+            }
+            return handled;
+        });
+    }
+
+    private void performSearch() {
+        controller.movieSearchApi(editTextSearch.getText().toString());
     }
 }

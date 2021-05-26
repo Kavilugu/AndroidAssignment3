@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">AndroidAssignment3</string>
+    <string name="app_name">Movie Times</string>
+
+    <string name="return_button">Back</string>
+    <string name="search_button">Search</string>
+    <string name="search_field_hint">Search…</string>
 </resources>
