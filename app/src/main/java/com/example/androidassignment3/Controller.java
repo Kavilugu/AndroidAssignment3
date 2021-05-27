@@ -1,9 +1,11 @@
 package com.example.androidassignment3;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -97,6 +99,9 @@ public class Controller {
                     browserFragment = new BrowserFragment(articleUrl);
                     browserFragment.setController(controller);
                     mainActivity.fragmentTrans(browserFragment);
+                    if (articleUrl.equals("https://c.tenor.com/Z6gmDPeM6dgAAAAC/dance-moves.gif")) {
+                        noResultToast();
+                    }
                 }, error -> Log.e("error response", error.toString()));
         rQueue.add(stringRequest);
     }
@@ -107,5 +112,13 @@ public class Controller {
 
     public void setSearchFragment() {
         mainActivity.fragmentTrans(searchFragment);
+    }
+
+    public void noResultToast() {
+        Context context = mainActivity.getApplicationContext();
+        CharSequence text = "No review found";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
