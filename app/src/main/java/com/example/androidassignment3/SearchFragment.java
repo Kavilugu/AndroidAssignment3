@@ -48,12 +48,12 @@ public class SearchFragment extends Fragment {
 
         setOnClickListeners();
 
-        movieView.setLayoutManager(new LinearLayoutManager(Objects.requireNonNull(getActivity()).getApplicationContext()));
+        movieView.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
         adapter = new MovieAdapter(list);
         movieView.setAdapter(adapter);
         adapter.setController(controller);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()).getApplicationContext());
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext().getApplicationContext());
         String sharedPrefStr = sharedPref.getString("searchMovieList", "");
         if (sharedPrefStr.length() != 0) {
             ArrayList<Movie> arrayItems;

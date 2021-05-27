@@ -88,7 +88,7 @@ public class Controller {
                         }
 
                         if (articleUrl.equals("")) {
-                            articleUrl = jsonArray.getJSONObject(0).getJSONObject("link").getString("url");
+                            articleUrl = "https://c.tenor.com/Z6gmDPeM6dgAAAAC/dance-moves.gif";
                         }
                     } catch (JSONException e) {
                         articleUrl = "https://c.tenor.com/Z6gmDPeM6dgAAAAC/dance-moves.gif";
